@@ -1,3 +1,6 @@
+#aku gabut2.0
+
+
 username = ["admin"]
 password = ["admin123"]
 resep = {"ayam goreng":["1kg Tepung Terigu", "1/2kg daging ayam,"], "Rendang":["1kg Daging Sapi","200 mili santan"]}
@@ -8,8 +11,8 @@ def log(): #login admin
     pw = input('Masukkan Password: ')
     if name in username:
         if pw in password:
-            print("")          
             print ('Selamat Datang', name)
+            print("")
             menu_admin()
         else:
             print ('\n Password Salah!!!')
@@ -110,39 +113,37 @@ def menu_user() :
   tampilkan()
   pilih()
   ulang()
-
 def edit_resep():
   tampilkan()
   print("Apakah Anda Ingin Mengubah Resep?")
   print("[1] Yes   [2] No")
   ubah = input('Masukkan Angka : ')
-  print("")
   if ubah == '1':
-    tampilkan()
     ed = input('Masukkan Nama Resep Yang Ingin Diubah: ')
-    print("")
     if ed in resep:
       while True:
         print('[1] Ubah Judul')
         print('[2] Ubah Bahan')
         print('[3] Ubah Langkah')
         print('[4] Kembali')
-        sel = input('Silahkan masukkan angka untuk memilih: ')
-        print("")
+        sel = input('Silahkan Masukkan Pilihan: ')
         if sel == '1':
           edBaru=input('Masukkan Judul Resep Yang Baru: ')
           resep[edBaru]=resep.pop(ed)
           langkah[edBaru]=langkah.pop(ed)
+          tampilkan()
+          print('\n')
           edit_resep()
         elif sel == '2':
           resep[ed].clear()
           while True:
             edNew=input('Masukkan Bahan Yang Baru: ')
             if edNew=='stop':
-              break
+                for i in range(len(resep[ed])):
+                    print(f"[{i+1}] {resep[ed][i]}")
+                break
             resep[ed].append(edNew)
-            print("")
-            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')           
+            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')
           continue
         elif sel == '3':
           langkah[ed].clear()
@@ -151,13 +152,12 @@ def edit_resep():
             if edNew=='stop':
               break
             langkah[ed].append(edNew)
-            print("")
-            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')            
+            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')
           continue
         elif sel == '4':
           edit_resep()
         else:
-          print('Pilihan Tidak Tersedia')
+          print('\nPilihan Tidak Tersedia')
           continue
     else:
       print('\nMohon Periksa Ulang Nama Resep Yang Dimasukkan')
@@ -165,7 +165,7 @@ def edit_resep():
   elif ubah=='2':
     menu_admin()
   else:
-    print('Pilihan Tidak Tersedia')
+    print('\nPilihan Tidak Tersedia')
     edit_resep()
 # Kumpulan fungsi untuk admin
 def menu_admin(): #menu admin
@@ -211,9 +211,6 @@ def menu_admin(): #menu admin
     edit_resep()
   elif answer1 == '5':
     menuAwal()
-  else:
-    print('\nPilihan Tidak Tersedia')
-    menu_admin()
 
 def hapus1():
     print("\n lanjut Menghapus ?")
