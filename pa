@@ -1,0 +1,265 @@
+username = ["admin"]
+password = ["admin123"]
+resep = {"ayam goreng":["1kg Tepung Terigu", "1/2kg daging ayam,"], "Rendang":["1kg Daging Sapi","200 mili santan"]}
+langkah = {"ayam goreng":["baluri ayam dengan tepung","goreng dengan api di suhu 100 derajat celcius"], "Rendang":["langkah1","langkah2"]}
+
+def log(): #login admin
+    name = input('Masukkan Username: ')
+    pw = input('Masukkan Password: ')
+    if name in username:
+        if pw in password:
+            print("")          
+            print ('Selamat Datang', name)
+            menu_admin()
+        else:
+            print ('\n Password Salah!!!')
+            print("\nIngin kembali ke menu awal?")
+            print("[1] Yes  [2] No")
+            jwb = input("masukkan angka :  ")
+            if jwb == "1" :
+              menuAwal()
+            else :
+              log()
+    else:
+        print ('\n !!!Username Tidak Tersedia!!!')
+        print("\nIngin kembali ke menu awal?")
+        print("[1] Yes  [2] No")
+        jwb = input("masukkan angka :  ")
+        if jwb == "1" :
+            menuAwal()
+        else :
+            log()
+
+def menuAwal() : # menu awal 
+  print("[1] Masuk Sebagai Admin")
+  print("[2] Gunakan langsung sebagai Users")
+  print("[3] Keluar")
+  answer = input("Masukkan angka untuk lanjut ->  ")
+  print("")
+  if answer == "1" :
+    log()
+  elif answer == "2" :
+    menu_user()
+  elif answer == "3" :
+    print("==== program selesai ====")
+    exit()
+  else :
+    print("Maaf pilihan tidak tersedia, Silahkan mengulang pilihan!")
+    menuAwal()
+    
+def tampilkan():
+  print("KUMPULAN RESEP :")
+  b = 0
+  for i in resep.keys():
+    b += 1
+    print(f"[{b}] {i} ")
+
+def pilih():
+  print("Perhatikan besar kecil huruf!!!")
+  nama = input("masukkan nama Resep ->  ")
+  if nama in resep:
+    print("")
+    print("==== BAHAN ====")
+    for i in range(len(resep[nama])):
+      print(f"[{i+1}] {resep[nama][i]}")
+    if nama in langkah :
+      print("")
+      print("==== LANGKAH ====")
+      for i in range(len(langkah[nama])):
+        print(f"[{i+1}] {langkah[nama][i]}")
+  else :
+    print("")
+    print("Pilihan tidak di temukan")
+    print("Silahkan ulangi, periksa penulisan anda")
+    pilih()
+
+def ulang () :
+  print("")
+  print("Apakah ingin memilih resep lagi?")
+  print("[1] Yes    [2]NO")
+  u = input("Masukkan angka ->  ")
+  print("")
+  if u == "1":
+    menu_user()
+  elif u == "2" :
+    akhiri()
+  else :
+    print("Pilihan tidak tersedia")
+    ulang()
+
+def akhiri() :
+    print("")
+    print("[1] Akhiri program ?")
+    print("[2] Pilih resep kembali   \n[3] Kembali ke Menu Awal")
+    akhiri = input("Masukkan angka ->  ")
+    if akhiri == "1":
+      print("Terrimakasih")      
+      print("==== program selesai ====")
+      exit()
+    elif akhiri == "2" :
+      menu_user()
+    elif akhiri == "3":
+      print("")      
+      menuAwal()
+    else :
+      print("pilihan tidak tersedia")
+      akhiri()
+
+def menu_user() :
+  print("\n ===== Silahkan Pilih Resep =====")
+  tampilkan()
+  pilih()
+  ulang()
+
+def edit_resep():
+  tampilkan()
+  print("Apakah Anda Ingin Mengubah Resep?")
+  print("[1] Yes   [2] No")
+  ubah = input('Masukkan Angka : ')
+  print("")
+  if ubah == '1':
+    tampilkan()
+    ed = input('Masukkan Nama Resep Yang Ingin Diubah: ')
+    print("")
+    if ed in resep:
+      while True:
+        print('[1] Ubah Judul')
+        print('[2] Ubah Bahan')
+        print('[3] Ubah Langkah')
+        print('[4] Kembali')
+        sel = input('Silahkan masukkan angka untuk memilih: ')
+        print("")
+        if sel == '1':
+          edBaru=input('Masukkan Judul Resep Yang Baru: ')
+          resep[edBaru]=resep.pop(ed)
+          langkah[edBaru]=langkah.pop(ed)
+          edit_resep()
+        elif sel == '2':
+          resep[ed].clear()
+          while True:
+            edNew=input('Masukkan Bahan Yang Baru: ')
+            if edNew=='stop':
+              break
+            resep[ed].append(edNew)
+            print("")
+            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')           
+          continue
+        elif sel == '3':
+          langkah[ed].clear()
+          while True:
+            edNew=input('Masukkan Langkah Yang Baru: ')
+            if edNew=='stop':
+              break
+            langkah[ed].append(edNew)
+            print("")
+            print('Untuk Berhenti, Input (stop) Tanpa Tanda Petik')            
+          continue
+        elif sel == '4':
+          edit_resep()
+        else:
+          print('Pilihan Tidak Tersedia')
+          continue
+    else:
+      print('\nMohon Periksa Ulang Nama Resep Yang Dimasukkan')
+      edit_resep()
+  elif ubah=='2':
+    menu_admin()
+  else:
+    print('Pilihan Tidak Tersedia')
+    edit_resep()
+# Kumpulan fungsi untuk admin
+def menu_admin(): #menu admin
+  print("\n ==== MENU ADMIN ====")
+  print("[1] Lihat Resep")
+  print("[2] Tambah Resep")
+  print("[3] Hapus Resep")
+  print("[4] Edit Resep")
+  print("[5] Kembali ke menu awal")
+  answer1 = input('Masukkan Pilihan ->')
+  print("")
+  if answer1 == '1':
+    tampilkan()
+    print("Apakah ingin melihat detail resep?")
+    print("[1] Yes   [2] No")
+    detil = input("Masukkan angka untuk lanjut -> ")
+    if detil == "1":
+      print("")
+      tampilkan()
+      pilih()
+      menu_admin()
+    else:
+      menu_admin()
+
+  elif answer1 == "2":
+    print("\n lanjut Menambah ?")
+    print("[1] Yes   [2] No")
+    jawab = input("Masukkan angka: ") 
+    if jawab == "1":
+      print("")
+      tampilkan()
+      print("")
+      tambah()
+      menu_admin()
+    else :
+      menu_admin()
+  
+  elif answer1 == "3":
+    hapus1()
+    menu_admin()
+    
+  elif answer1 == "4":
+    edit_resep()
+  elif answer1 == '5':
+    menuAwal()
+  else:
+    print('\nPilihan Tidak Tersedia')
+    menu_admin()
+
+def hapus1():
+    print("\n lanjut Menghapus ?")
+    print("[1] Yes   [2] No")
+    jawab = input("Masukkan angka: ") 
+    if jawab == "1":
+      print("")
+      tampilkan()
+      hapus()
+    elif jawab == "2":
+      menu_admin()
+    else :
+      print("pilihan tidak tersedia")
+      hapus1() 
+
+def hapus():
+    nama = input("Masukkan nama resep yang ingin di hapus : ")
+    if nama in resep:
+        del resep[nama]
+        del langkah[nama]
+        tampilkan()
+    else:
+        print("Nama salah")
+        hapus()
+    
+def tambah():
+    x = input('Masukkan nama resep baru :  ')
+    while True:
+      y = input('masukkan bahan: ')
+      if y== 'stop':
+        break
+    
+      resep.setdefault(x,[])
+      resep[x].append(y)
+      langkah.setdefault(x,[])
+      print("")
+      print("untuk berhenti input (stop) tanpa tanda kurung")
+    print("")
+    
+    while True:
+      z = input('masukkan langkah pengolahan : ')
+      if z== 'stop':
+        break
+      langkah[x].append(z)
+      print("")
+      print("untuk berhenti input (stop) tanpa tanda kurung")
+
+# memulai program
+menuAwal()
